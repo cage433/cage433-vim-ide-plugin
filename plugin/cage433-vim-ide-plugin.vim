@@ -70,3 +70,9 @@ inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 noremap <silent> <F3> :call BufferList()<CR>
 
 nnoremap <leader>  <C-^>
+
+let g:ctrlp_map = ',f'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_by_filename = 1
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$'
