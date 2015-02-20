@@ -1,3 +1,4 @@
+let mapleader=","
 inoremap jk <ESC>
 noremap <silent> <leader>sv :source $MYVIMRC<CR>
 noremap <silent> <leader>se :e $MYVIMRC<CR>
@@ -71,9 +72,57 @@ noremap <silent> <F3> :call BufferList()<CR>
 
 nnoremap <leader>, <C-^>
 
-set runtimepath^=~/.vim/bundle/ctrlp/plugin/ctrlp.vim
 let g:ctrlp_map = ',f'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
 let g:ctrlp_dotfiles = 0
-let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$'
+let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$|\.class$'
+
+let g:ackprg="ack-grep --type=noxml -H --nocolor --nogroup --column"
+
+set efm=[error]\ %f:%l:\ %m
+nnoremap <leader>ee :cfile vim-compilation-errors<CR>:copen<CR><CR>
+nnoremap <leader>en :cn<CR>
+nnoremap <leader>ep :cp<CR>
+
+function! RefreshTags()
+    exec "silent ! scala-tags.sh"
+    redraw!
+endfunction
+command! RefreshCTags call RefreshTags()
+noremap <leader>ct :silent :call RefreshTags()<CR>
+
+let g:orientation="landscape"
+function! ToggleSplit()
+  if winnr("$") == 1
+    if g:orientation == "landscape"
+      vsplit
+    else
+      split
+    endif
+  else
+    only
+  endif
+endfunction
+map <silent> <F10> :call ToggleSplit()<CR>
+
+function! TogglePaste()
+  set paste!
+  if &paste
+    echo "Paste On"
+  else
+    echo "Paste Off"
+  endif
+endfunction
+noremap <silent> <F4> :call TogglePaste()<CR>
+
+
+set t_Co=16
+let g:dark_view=1
+set background=dark
+colorscheme solarized
+let g:solarized_termtrans=1
+set wildignore+=*.jar
+set wildignore+=*.class
+
+syntax on
