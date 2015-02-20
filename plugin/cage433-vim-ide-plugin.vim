@@ -66,3 +66,7 @@ function! InsertTabWrapper()
     endif
 endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
+noremap <silent> <F3> :call BufferList()<CR>
+
+nnoremap <leader>  <C-^>
