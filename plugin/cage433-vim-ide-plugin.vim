@@ -3,6 +3,9 @@ inoremap jk <ESC>
 noremap <silent> <leader>sv :source $MYVIMRC<CR>
 noremap <silent> <leader>se :e $MYVIMRC<CR>
 
+noremap <leader>sy :e /home/alex/.vim/bundle/cage433-vim-ide-plugin/plugin/cage433-vim-ide-plugin.vim<CR>
+noremap <leader>su :e /home/alex/repos/init-scripts/vim/dot-vimrc<CR>
+
 set wrap        
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set autoindent    " always set autoindenting on
@@ -81,7 +84,7 @@ let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$|\.class$'
 let g:ackprg="ack-grep --type=noxml -H --nocolor --nogroup --column"
 
 set efm=[error]\ %f:%l:\ %m
-nnoremap <leader>ee :cfile vim-compilation-errors<CR>:copen<CR><CR>
+nnoremap <leader>ee :copen<CR>:cfile vim-compilation-errors<CR>
 nnoremap <leader>en :cn<CR>
 nnoremap <leader>ep :cp<CR>
 
@@ -117,7 +120,6 @@ endfunction
 noremap <silent> <F4> :call TogglePaste()<CR>
 
 
-syntax enable
 set t_Co=16
 let g:dark_view=1
 set background=dark
@@ -126,5 +128,75 @@ let g:solarized_termtrans=1
 " let g:solarized_termcolors=256
 set wildignore+=*.jar
 set wildignore+=*.class
+syntax enable
 
-syntax on
+
+function! SplitScreenIfNecessary()
+  if winnr("$") == 1
+    exec ":silent only"
+    if g:orientation == "landscape"
+      exec ":vsplit"
+    else
+      exec ":split"
+    end
+  endif
+  exec "normal \<C-w>w"
+endfunction
+
+function! OpenTagInOtherWindow()
+  let tag = expand("<cword>")
+  call SplitScreenIfNecessary()
+  exec ":tag " . tag
+endfunction
+
+noremap <leader>w :call OpenTagInOtherWindow()<CR>,/
+
+autocmd FileType scala nnoremap <buffer> <silent> <F5> :call scalaimports#buffer#create()<CR>
+" Update imports map file and in memory
+autocmd FileType scala nnoremap <buffer> <silent> <leader>sr :call scalaimports#project#rebuild_imports_map(0)<CR>
+" Purge imports map file and rebuild
+autocmd FileType scala nnoremap <buffer> <silent> <leader>sR :call scalaimports#project#rebuild_imports_map(1)<CR>
+
+function! SwitchNumbering()
+  if &relativenumber
+    set norelativenumber
+    set number
+  elseif &number
+    set norelativenumber
+    set nonumber
+  else
+    set nonumber
+    set relativenumber
+  end
+endfunction
+
+map <F6> :CtrlPClearAllCaches<CR>
+map <F9> :call SwitchNumbering()<CR>
+
+function! RefreshTags()
+    exec "silent ! ctags -R ."
+    redraw!
+endfunction
+noremap <leader>ct :silent :call RefreshTags()<CR>
+imap <F5> println("Debug: " + (new java.util.Date()) + )<Esc>h
+
+function! WritePackage()
+  let path = expand("%:h")
+  let index = stridx(path, "src/", 0)
+  if index == -1
+    let index = stridx(path, "tests/", 0)
+    if index == -1
+      let package = ""
+    else
+      let package = substitute(strpart(path, index + 6), "/", ".", "g") 
+    endif
+  else
+    let package = substitute(strpart(path, index + 4), "/", ".", "g") 
+  endif
+  let line = "package ".package
+  exe "normal a".line."\r"
+  redraw!
+endfunction
+
+nmap <silent> <leader>sp :call WritePackage()<CR>
+autocmd FileType scala setlocal shiftwidth=2 tabstop=2 colorcolumn=120
