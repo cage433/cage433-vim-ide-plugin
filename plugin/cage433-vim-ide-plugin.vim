@@ -199,4 +199,25 @@ function! WritePackage()
 endfunction
 
 nmap <silent> <leader>sp :call WritePackage()<CR>
-autocmd FileType scala setlocal shiftwidth=2 tabstop=2 colorcolumn=120
+autocmd FileType scala setlocal shiftwidth=2 tabstop=2 colorcolumn=118
+
+set statusline=%f
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
+
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
+noremap <silent> <leader>sq :e /home/alex/.vim/bundle/scalaimports/autoload/scalaimports/state.vim<CR>
