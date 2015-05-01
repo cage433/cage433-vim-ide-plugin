@@ -43,16 +43,16 @@ function! ScalaPackage(filename)
 endfunction
 
 function! ReadClasspath()
-  return readfile("maker-classpath.sh")[0]
+  return readfile("maker-classpath.txt")[0]
 endfunction
 
 function! RunFile(filename)
   let g:last_file_run=a:filename
   if IsScalaTestFile(a:filename) 
     if g:show_test_exceptions
-      let test_reporter_arg = " -P5 -R . -oFHL " 
+      let test_reporter_arg = " -P -R . -oFHL " 
     else
-      let test_reporter_arg = " -P5 -R . -oHL " 
+      let test_reporter_arg = " -P -R . -oHL " 
     endif
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
@@ -64,7 +64,7 @@ function! RunFile(filename)
       \." -Xms256m "
       \." -Dlogback.configurationFile=" . logbackfile
       \." org.scalatest.tools.Runner " . test_reporter_arg
-      \." -s " . fullclassname
+      \." -s " . fullclassname 
   elseif IsScalaFile(a:filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
@@ -75,6 +75,7 @@ function! RunFile(filename)
       \." -Xmx4000m "
       \." -Xms256m "
       \.fullclassname
+
 
   elseif Extension(a:filename) == "py"
     exec    "!clear; "
