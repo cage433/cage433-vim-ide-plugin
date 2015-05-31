@@ -59,7 +59,7 @@ function! RunFile(filename)
     let logbackfile="logback-vim.xml"
     exec "! clear; "
       \." $JAVA_HOME/bin/java "
-      \." -classpath " . classpath
+      \." -classpath \"" . classpath . "\""
       \." -Xmx4000m "
       \." -Xms256m "
       \." -Dlogback.configurationFile=" . logbackfile
@@ -71,7 +71,7 @@ function! RunFile(filename)
     exec "! clear; "
       \." $JAVA_HOME/bin/java"
       \." -Dlogback.configurationFile=logback-vim.xml"
-      \." -classpath " . classpath
+      \." -classpath \"" . classpath . "\""
       \." -Xmx4000m "
       \." -Xms256m "
       \.fullclassname
