@@ -68,6 +68,13 @@ function! RunFile(filename)
   elseif IsScalaFile(a:filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
+    echom "! clear; "
+      \." $JAVA_HOME/bin/java"
+      \." -Dlogback.configurationFile=logback-vim.xml"
+      \." -classpath \"" . classpath . "\""
+      \." -Xmx4000m "
+      \." -Xms256m "
+      \.fullclassname
     exec "! clear; "
       \." $JAVA_HOME/bin/java"
       \." -Dlogback.configurationFile=logback-vim.xml"
@@ -83,6 +90,9 @@ function! RunFile(filename)
   elseif Extension(a:filename) == "rb"
     exec    "!clear; "
           \." ruby ". fnameescape(a:filename)
+  elseif Extension(a:filename) == "jl"
+    exec    "!clear; "
+          \." julia ". fnameescape(a:filename)
   elseif Extension(a:filename) == "vim" 
     exec "source ". fnameescape(a:filename)
   elseif Extension(a:filename) == "sh"

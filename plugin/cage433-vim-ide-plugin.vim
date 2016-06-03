@@ -79,7 +79,7 @@ let g:ctrlp_map = ',f'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_by_filename = 1
 let g:ctrlp_dotfiles = 0
-let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$|\.class$'
+"let g:ctrlp_custom_ignore = '\.git$\|\.xml$|\.fasl$|\.class$'
 
 let g:ackprg="ack-grep --type=noxml -H --nocolor --nogroup --column"
 
