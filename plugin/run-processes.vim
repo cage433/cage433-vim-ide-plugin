@@ -79,8 +79,7 @@ function! RunFile(filename)
       \." $JAVA_HOME/bin/java"
       \." -Dlogback.configurationFile=logback-vim.xml"
       \." -classpath \"" . classpath . "\""
-      \." -Xmx4000m "
-      \." -Xms256m "
+      \." -Xmx1000m "
       \.fullclassname
 
 

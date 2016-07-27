@@ -95,7 +95,6 @@ endfunction
 command! RefreshCTags call RefreshTags()
 noremap <leader>ct :silent :call RefreshTags()<CR>
 
-let g:orientation="landscape"
 function! ToggleSplit()
   if winnr("$") == 1
     if g:orientation == "landscape"
@@ -157,21 +156,8 @@ autocmd FileType scala nnoremap <buffer> <silent> <leader>sr :call scalaimports#
 " Purge imports map file and rebuild
 autocmd FileType scala nnoremap <buffer> <silent> <leader>sR :call scalaimports#project#rebuild_imports_map(1)<CR>
 
-function! SwitchNumbering()
-  if &relativenumber
-    set norelativenumber
-    set number
-  elseif &number
-    set norelativenumber
-    set nonumber
-  else
-    set nonumber
-    set relativenumber
-  end
-endfunction
-
 map <F6> :CtrlPClearAllCaches<CR>
-map <F9> :call SwitchNumbering()<CR>
+map <F9> :set invnumber<CR>
 
 function! RefreshTags()
     exec "silent ! ctags -R ."
