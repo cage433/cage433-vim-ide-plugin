@@ -65,6 +65,7 @@ function! RunFile(filename)
       \." -Dlogback.configurationFile=" . logbackfile
       \." org.scalatest.tools.Runner " . test_reporter_arg
       \." -s " . fullclassname 
+      \." | tee maker-test-output.txt 2 >&1"
   elseif IsScalaFile(a:filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
