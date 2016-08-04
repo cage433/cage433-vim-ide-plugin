@@ -35,6 +35,8 @@ nnoremap <C-l> <C-w>l
 
 nnoremap j gj
 nnoremap k gk
+nnoremap gj j
+nnoremap gk k
 
 
 

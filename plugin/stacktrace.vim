@@ -56,9 +56,9 @@ function! MoveToLineInStackTrace(forward)
   let new_buffer = OpenStackTraceInLowerWindow()
   if ! new_buffer
     if a:forward
-      exe "normal j0"
+      exe "normal gj0"
     else
-      exe "normal k$"
+      exe "normal gk$"
     endif
   endif
   exe "redraw!"
@@ -75,32 +75,3 @@ endfunction
 nnoremap <leader>sn :silent :call MoveToLineInStackTrace(1)<cr>
 nnoremap <leader>sp :silent :call MoveToLineInStackTrace(0)<cr>
 nnoremap <leader>ss :silent :call OpenErrorAtLine()<cr>
-
-"call OpenStackTraceInLowerWindow()
-"exe "normal j0"
-"let nextline = search("at com.freetrm", "e")
-"if nextline
-  "echo "line is now ".nextline
-  "let s:stack_trace_line_no = nextline
-  "let [file_basename, lineno] = BasenameAndLineNo(getline("."))
-  "echo "file basename "file_basename
-  "call OpenBufferInSplitWindow(file_basename, 0)
-  "exe "normal ".lineno."G"
-  "exe "normal z."
-"else
-  "echoerr "No more freetrm lines"
-"endif
-
-
-
-"redir END
-"let output = copy(@")
-
-"if empty(output)
-  "echoerr "no output"
-"else
-  "new
- "setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
-  "put! =output
-  "exe "normal \<c-j>"
-"endif
