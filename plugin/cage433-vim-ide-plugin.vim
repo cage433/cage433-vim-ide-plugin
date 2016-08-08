@@ -186,7 +186,7 @@ function! WritePackage()
   redraw!
 endfunction
 
-nmap <silent> <leader>sp :call WritePackage()<CR>
+nmap <silent> <leader>sP :call WritePackage()<CR>
 autocmd FileType scala setlocal shiftwidth=2 tabstop=2 colorcolumn=118
 
 set statusline=%f
