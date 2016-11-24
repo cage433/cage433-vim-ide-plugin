@@ -57,30 +57,25 @@ function! RunFile(filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
     let logbackfile="logback-vim.xml"
+      " \."-XX:+UseG1GC "
     exec "! clear; "
       \." $JAVA_HOME/bin/java "
       \." -classpath \"" . classpath . "\""
-      \." -Xmx4000m "
-      \." -Xms256m "
+      \." -Xmx8000m "
       \." -Dlogback.configurationFile=" . logbackfile
+      \." -verbose:gc "
       \." org.scalatest.tools.Runner " . test_reporter_arg
       \." -s " . fullclassname 
       \." 2>&1 | tee maker-test-output.txt"
   elseif IsScalaFile(a:filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
-    echom "! clear; "
-      \." $JAVA_HOME/bin/java"
-      \." -Dlogback.configurationFile=logback-vim.xml"
-      \." -classpath \"" . classpath . "\""
-      \." -Xmx4000m "
-      \." -Xms256m "
-      \.fullclassname
     exec "! clear; "
       \." $JAVA_HOME/bin/java"
       \." -Dlogback.configurationFile=logback-vim.xml"
       \." -classpath \"" . classpath . "\""
-      \." -Xmx1000m "
+      \." -Xmx8g "
+      \." -verbose:gc "
       \.fullclassname
 
 
