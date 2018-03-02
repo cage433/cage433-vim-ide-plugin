@@ -121,15 +121,15 @@ endfunction
 noremap <silent> <F4> :call TogglePaste()<CR>
 
 
+syntax enable
 set t_Co=16
 let g:dark_view=1
 set background=dark
 colorscheme solarized
 let g:solarized_termtrans=1
-" let g:solarized_termcolors=256
+"" let g:solarized_termcolors=256
 set wildignore+=*.jar
 set wildignore+=*.class
-syntax enable
 
 
 function! SplitScreenIfNecessary()

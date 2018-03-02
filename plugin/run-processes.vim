@@ -23,11 +23,17 @@ function! IsScalaTestFile(filename)
   return 0
 endfunction
 
-let g:show_test_exceptions=0
+let g:show_test_exceptions = 0
 function! ToggleTestExceptions()
   let g:show_test_exceptions = !g:show_test_exceptions
 endfunction
 noremap <leader>sx :call ToggleTestExceptions()<CR>
+
+let g:verbose_gc = 0
+function! ToggleVerboseGC()
+  let g:verbose_gc = !g:verbose_gc
+endfunction
+noremap <leader>sg :call ToggleVerboseGC()<CR>
 
 let s:package_regex='\v^package\s+(.*)$'
 function! ScalaPackage(filename)
@@ -48,6 +54,11 @@ endfunction
 
 function! RunFile(filename)
   let g:last_file_run=a:filename
+  if g:verbose_gc
+    let verbose_gc_arg = " -verbose:gc "
+  else
+    let verbose_gc_arg = ""
+  endif
   if IsScalaTestFile(a:filename) 
     if g:show_test_exceptions
       let test_reporter_arg = " -P -R . -oFHL " 
@@ -57,13 +68,22 @@ function! RunFile(filename)
     let fullclassname = ScalaPackage(a:filename).".".Basename(a:filename)
     let classpath = ReadClasspath()
     let logbackfile="logback-vim.xml"
-      " \."-XX:+UseG1GC "
+
+    echom "! clear; "
+      \." $JAVA_HOME/bin/java "
+      \." -classpath \"" . classpath . "\""
+      \." -Xmx8000m "
+      \." -Dlogback.configurationFile=" . logbackfile
+      \.verbose_gc_arg
+      \." org.scalatest.tools.Runner " . test_reporter_arg
+      \." -s " . fullclassname 
+      \." 2>&1 | tee maker-test-output.txt"
     exec "! clear; "
       \." $JAVA_HOME/bin/java "
       \." -classpath \"" . classpath . "\""
       \." -Xmx8000m "
       \." -Dlogback.configurationFile=" . logbackfile
-      \." -verbose:gc "
+      \.verbose_gc_arg
       \." org.scalatest.tools.Runner " . test_reporter_arg
       \." -s " . fullclassname 
       \." 2>&1 | tee maker-test-output.txt"
@@ -75,7 +95,7 @@ function! RunFile(filename)
       \." -Dlogback.configurationFile=logback-vim.xml"
       \." -classpath \"" . classpath . "\""
       \." -Xmx8g "
-      \." -verbose:gc "
+      \.verbose_gc_arg
       \.fullclassname
 
 
