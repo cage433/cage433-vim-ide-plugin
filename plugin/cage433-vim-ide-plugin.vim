@@ -125,9 +125,10 @@ syntax enable
 set t_Co=16
 let g:dark_view=1
 set background=dark
-colorscheme solarized
+"let g:solarized_termcolors=256
 let g:solarized_termtrans=1
-"" let g:solarized_termcolors=256
+let g:solarized_termcolors=16
+colorscheme solarized
 set wildignore+=*.jar
 set wildignore+=*.class
 
