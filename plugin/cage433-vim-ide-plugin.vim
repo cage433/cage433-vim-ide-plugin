@@ -3,8 +3,8 @@ inoremap jk <ESC>
 noremap <silent> <leader>sv :source $MYVIMRC<CR>
 noremap <silent> <leader>se :e $MYVIMRC<CR>
 
-noremap <leader>sy :e /home/alex/.vim/bundle/cage433-vim-ide-plugin/plugin/cage433-vim-ide-plugin.vim<CR>
-noremap <leader>su :e /home/alex/repos/init-scripts/vim/dot-vimrc<CR>
+noremap <leader>sy :e $HOME/.vim/bundle/cage433-vim-ide-plugin/plugin/cage433-vim-ide-plugin.vim<CR>
+noremap <leader>su :e $HOME/repos/init-scripts/vim/dot-vimrc<CR>
 
 set wrap        
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
@@ -123,8 +123,8 @@ noremap <silent> <F4> :call TogglePaste()<CR>
 
 syntax enable
 set t_Co=16
-let g:dark_view=1
-set background=dark
+"let g:dark_view=1
+"set background=dark
 "let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 let g:solarized_termcolors=16
